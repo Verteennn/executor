@@ -82,11 +82,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)layuh\drawing\libs\FreeType\include;$(SolutionDir)layuh;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)layuh\drawing\libs\FreeType\lib;$(SolutionDir)layuh\drawing\libs;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)layuh\Win32\Release\</OutDir>
+    <IntDir>$(SolutionDir)layuh\Win32\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)layuh\drawing/libs\FreeType\include;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)layuh\drawing/libs\FreeType\lib/x64;$(SolutionDir)layuh\drawing\libs\FreeType\lib;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
-
+    <OutDir>$(SolutionDir)layuh\x64\Release\</OutDir>
+    <IntDir>$(SolutionDir)layuh\x64\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
