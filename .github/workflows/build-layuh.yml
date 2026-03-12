@@ -32,35 +32,28 @@ jobs:
 
     - name: Build Release x64
       run: |
-        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /verbosity:detailed /m:1 2>&1
+        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /verbosity:diagnostic /m:1
+        
+    - name: Find EXE files
+      run: |
+        echo "Searching for EXE files..."
+        Get-ChildItem -Path "layuh" -Include "*.exe" -Recurse | ForEach-Object { echo $_.FullName }
+        echo ""
+        echo "Full directory tree:"
+        Get-ChildItem -Path "layuh" -Recurse | Select-Object Name, FullName | Format-List
         
     - name: Upload x64 artifact
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: layuh-x64-exe
-        path: layuh/x64/Release/
-        if-no-files-found: warn
-
-    - name: Build Release Win32
-      run: |
-        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=Win32 /verbosity:detailed /m:1 2>&1
-
-    - name: Upload Win32 artifact
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
-        name: layuh-win32-exe
-        path: layuh/Win32/Release/
-        if-no-files-found: warn
+        path: layuh/**/Release/*.exe
+        if-no-files-found: error
 
     - name: Create Release (on tag)
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          layuh/x64/Release/*.exe
-          layuh/Win32/Release/*.exe
+        files: layuh/**/Release/*.exe
         draft: false
         prerelease: false
       env:

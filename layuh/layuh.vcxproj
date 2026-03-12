@@ -86,9 +86,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)layuh\drawing/libs\FreeType\include;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)layuh\drawing/libs\FreeType\lib/x64;$(SolutionDir)layuh\drawing\libs\FreeType\lib;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)\release\</OutDir>
-    <IntDir>$(Platform)\inters\</IntDir>
-    <TargetName>AnyDesk</TargetName>
+
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
