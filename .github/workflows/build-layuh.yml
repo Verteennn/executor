@@ -35,7 +35,7 @@ jobs:
 
     - name: Upload EXE artifact (${{ matrix.platform }})
       if: success()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: layuh-${{ matrix.platform }}-exe
         path: layuh/${{ matrix.platform_folder }}/Release/*.exe
