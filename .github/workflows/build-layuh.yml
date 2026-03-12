@@ -13,61 +13,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Check project structure
-      run: |
-        echo "=== Checking solution file ==="
-        dir "totally not layuh.sln"
-        echo ""
-        echo "=== Checking layuh project ==="
-        dir layuh/
-        echo ""
-        echo "=== Checking packages ==="
-        dir packages/
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
+
+    - name: Install Visual Studio dependencies
+      run: |
+        choco install windows-sdk-10.1 -y
+      continue-on-error: true
 
     - name: Restore NuGet packages
       run: nuget restore "totally not layuh.sln"
 
     - name: Build Release x64
+      run: msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /verbosity:minimal
+
+    - name: List all generated files
       run: |
-        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /verbosity:diagnostic /m:1
+        echo "=== Listing all files generated ==="
+        Get-ChildItem -Path "." -Recurse -Include "*.exe" -ErrorAction SilentlyContinue | ForEach-Object { Write-Output "Found: $($_.FullName)" }
         
-    - name: Find EXE files
-      run: |
-        echo "=== Searching for ALL files ==="
-        Get-ChildItem -Path "." -Include "*.exe" -Recurse -ErrorAction SilentlyContinue | ForEach-Object { echo "FOUND: $($_.FullName)" }
-        echo ""
-        echo "=== Checking release folder ==="
-        if (Test-Path "release") { Get-ChildItem -Path "release" -Recurse }
-        echo ""
-        echo "=== Checking layuh folder structure ==="
-        Get-ChildItem -Path "layuh" -Recurse -Directory | Select-Object FullName | Format-List
-        echo ""
-        echo "=== Looking for any EXE in entire solution ==="
-        Get-ChildItem -Path "." -Include "*.exe" -Recurse -ErrorAction SilentlyContinue
-        
-    - name: Upload x64 artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: layuh-exe
+        name: Layuh-Executable
         path: |
-          release/
-          layuh/**/Release/
-          layuh/**/Debug/
           **/*.exe
+          release/
         if-no-files-found: error
-
-    - name: Create Release (on tag)
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          release/*.exe
-          layuh/**/Release/*.exe
-          layuh/**/Debug/*.exe
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
