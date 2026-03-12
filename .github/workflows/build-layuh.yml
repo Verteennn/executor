@@ -21,18 +21,21 @@ jobs:
             platform_folder: Win32
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
+    - name: Restore NuGet packages
+      run: nuget restore "totally not layuh.sln"
+
     - name: Build solution (${{ matrix.platform }})
       run: |
-        msbuild "totally not layuh.sln" /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
+        msbuild "totally not layuh.sln" /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /verbosity:detailed /m:1
 
     - name: Upload EXE artifact (${{ matrix.platform }})
       if: success()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: layuh-${{ matrix.platform }}-exe
         path: layuh/${{ matrix.platform_folder }}/Release/*.exe
