@@ -1,0 +1,49 @@
+name: Build Layuh to .exe
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        configuration: [Release]
+        platform: [x64, Win32]
+        include:
+          - platform: x64
+            platform_folder: x64
+          - platform: Win32
+            platform_folder: Win32
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.4
+
+    - name: Build solution (${{ matrix.platform }})
+      run: |
+        msbuild "totally not layuh.sln" /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }}
+
+    - name: Upload EXE artifact (${{ matrix.platform }})
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: layuh-${{ matrix.platform }}-exe
+        path: layuh/${{ matrix.platform_folder }}/Release/*.exe
+        if-no-files-found: warn
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/v') && matrix.platform == 'x64'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: layuh/x64/Release/*.exe
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
