@@ -10,18 +10,19 @@ jobs:
   build:
     runs-on: windows-latest
 
-    strategy:
-      matrix:
-        configuration: [Release]
-        platform: [x64, Win32]
-        include:
-          - platform: x64
-            platform_folder: x64
-          - platform: Win32
-            platform_folder: Win32
-
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
+    - name: Check project structure
+      run: |
+        echo "=== Checking solution file ==="
+        dir "totally not layuh.sln"
+        echo ""
+        echo "=== Checking layuh project ==="
+        dir layuh/
+        echo ""
+        echo "=== Checking packages ==="
+        dir packages/
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
@@ -29,23 +30,37 @@ jobs:
     - name: Restore NuGet packages
       run: nuget restore "totally not layuh.sln"
 
-    - name: Build solution (${{ matrix.platform }})
+    - name: Build Release x64
       run: |
-        msbuild "totally not layuh.sln" /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /verbosity:detailed /m:1
-
-    - name: Upload EXE artifact (${{ matrix.platform }})
+        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /verbosity:detailed /m:1 2>&1
+        
+    - name: Upload x64 artifact
       if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: layuh-${{ matrix.platform }}-exe
-        path: layuh/${{ matrix.platform_folder }}/Release/*.exe
+        name: layuh-x64-exe
+        path: layuh/x64/Release/
         if-no-files-found: warn
 
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/v') && matrix.platform == 'x64'
+    - name: Build Release Win32
+      run: |
+        msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=Win32 /verbosity:detailed /m:1 2>&1
+
+    - name: Upload Win32 artifact
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: layuh-win32-exe
+        path: layuh/Win32/Release/
+        if-no-files-found: warn
+
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v1
       with:
-        files: layuh/x64/Release/*.exe
+        files: |
+          layuh/x64/Release/*.exe
+          layuh/Win32/Release/*.exe
         draft: false
         prerelease: false
       env:
