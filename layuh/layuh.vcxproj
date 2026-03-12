@@ -72,16 +72,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)layuh\drawing/libs\FreeType\include;$(SolutionDir)layuh;$(SolutionDir)layuh\util;$(SolutionDir)hush\libs\FreeType\include;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Include;$(SolutionDir)layuh\drawing/libs\FreeType\lib/x64;$(SolutionDir)layuh\drawing/libs\FreeType\lib/x86;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)layuh\drawing/libs\FreeType/lib;$(SolutionDir)layuh\drawing/libs;$(SolutionDir)hush\drawing\libs\FreeType\lib;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)layuh\drawing/libs\FreeType\include;$(SolutionDir)layuh;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(SolutionDir)layuh\drawing/libs\FreeType\lib/x64;$(SolutionDir)layuh\drawing/libs\FreeType\lib/x86;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)layuh\drawing/libs\FreeType/lib;$(SolutionDir)layuh\drawing/libs;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\zzziz\Downloads\hush\hush\drawing\libs\FreeType\include;C:\Users\zzziz\Downloads\hush\hush;C:\Users\zzziz\Downloads\hush\hush\util;$(SolutionDir)hush\libs\FreeType\include;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\zzziz\Downloads\hush\hush\drawing\libs\FreeType\lib;C:\Users\zzziz\Downloads\hush\hush\drawing\libs;$(SolutionDir)hush\drawing\libs\FreeType\lib;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)layuh\drawing\libs\FreeType\include;$(SolutionDir)layuh;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)layuh\drawing\libs\FreeType\lib;$(SolutionDir)layuh\drawing\libs;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\zzziz\Downloads\hush\hush\drawing\libs\FreeType\include;C:\Users\zzziz\Downloads\hush\hush;C:\Users\zzziz\Downloads\hush\hush\util;$(SolutionDir)hush\libs\FreeType\include;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\zzziz\Downloads\hush\hush\drawing\libs\FreeType\lib;C:\Users\zzziz\Downloads\hush\hush\drawing\libs;$(SolutionDir)hush\drawing\libs\FreeType\lib;$(SolutionDir)hush\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)layuh\drawing\libs\FreeType\include;$(SolutionDir)layuh;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)layuh\drawing\libs\FreeType\lib;$(SolutionDir)layuh\drawing\libs;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)layuh\drawing/libs\FreeType\include;$(SolutionDir)layuh\util;$(SolutionDir)layuh\drawing\libs\Microsoft DirectX SDK\Include;$(IncludePath)</IncludePath>
