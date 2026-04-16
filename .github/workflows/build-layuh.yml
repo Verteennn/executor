@@ -1,0 +1,47 @@
+name: Build Layuh to .exe
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
+
+    - name: Install Visual Studio dependencies
+      run: |
+        choco install windows-sdk-10.1 -y
+      continue-on-error: true
+
+    - name: Restore NuGet packages
+      run: nuget restore "totally not layuh.sln"
+
+    - name: Build Release x64
+      run: msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /verbosity:minimal
+
+    - name: Build Release Win32
+      run: msbuild "totally not layuh.sln" /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /verbosity:minimal
+
+    - name: List all generated files
+      run: |
+        echo "=== Listing all files generated ==="
+        Get-ChildItem -Path "." -Recurse -Include "*.exe" -ErrorAction SilentlyContinue | ForEach-Object { Write-Output "Found: $($_.FullName)" }
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Layuh-Executable
+        path: |
+          **/*.exe
+          release/
+        if-no-files-found: error
