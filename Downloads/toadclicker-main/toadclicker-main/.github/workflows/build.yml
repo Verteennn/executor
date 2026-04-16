@@ -1,0 +1,51 @@
+name: Build ToadClicker
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+      with:
+        msbuild-version: latest
+
+    - name: Restore NuGet packages
+      run: nuget restore autoclicker.sln
+
+    - name: Build Solution
+      run: msbuild autoclicker.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143
+
+    - name: Locate build output
+      shell: powershell
+      run: |
+        Get-ChildItem -Path . -Include "*.exe" -Recurse | Select-Object FullName
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToadClicker-Release
+        path: |
+          **/Release/x64/*.exe
+          **/Release/*.exe
+        if-no-files-found: warn
+        retention-days: 30
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          **/Release/x64/*.exe
+          **/Release/*.exe
